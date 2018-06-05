@@ -1,9 +1,11 @@
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, jsonify
 from twilio.twiml.messaging_response import MessagingResponse
 
 from flask import abort, current_app, request
 from functools import wraps
 from twilio.request_validator import RequestValidator
+
+import redis
 
 import os
 
@@ -42,6 +44,17 @@ def sms_reply():
     resp.message("The Robots are coming! Head for the hills!")
 
     return str(resp)
+
+@app.route("/users", methods=['GET'])
+def get_users():
+    """Get list of users in the app."""
+    return jsonify([
+        {
+            'first_name': 'taylor',
+            'last_name': 'sather',
+            'phone_number': '18583828381',
+        },
+    ])
 
 if __name__ == '__main__':
     app.run(port=8000)
