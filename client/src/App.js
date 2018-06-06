@@ -4,20 +4,19 @@ import './App.css';
 
 import Members from './Members.js';
 
-const members = [
-    { 
-        first_name: 'taylor',
-        last_name: 'sather',
-        phone_number: '8583828381',
-    },
-    { 
-        first_name: 'jessica',
-        last_name: 'sather',
-        phone_number: '7604293043',
-    },
-];
-
 class App extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = { members: [] };
+	}
+
+	componentDidMount() {
+		fetch('/members')
+		  .then( result => result.json() )
+		  .then( members => this.setState({ members }) );
+	}
+
   render() {
     return (
       <div className="App">
@@ -25,7 +24,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Members members={members}/>
+        <Members members={this.state.members}/>
       </div>
     );
   }

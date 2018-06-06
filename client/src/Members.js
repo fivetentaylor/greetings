@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Members({members}) {
+function Members({ members }) {
     return (
       <table className="Members">
       <tbody>

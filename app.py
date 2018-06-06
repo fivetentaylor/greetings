@@ -45,8 +45,8 @@ def sms_reply():
 
     return str(resp)
 
-@app.route("/users", methods=['GET'])
-def get_users():
+@app.route("/members", methods=['GET'])
+def get_members():
     """Get list of users in the app."""
     return jsonify([
         {
@@ -54,8 +54,13 @@ def get_users():
             'last_name': 'sather',
             'phone_number': '18583828381',
         },
+        {
+            'first_name': 'jessica',
+            'last_name': 'sather',
+            'phone_number': '17604293043',
+        },
     ])
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(port=os.environ['PORT'])
 
