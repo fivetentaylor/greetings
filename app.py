@@ -5,10 +5,11 @@ from flask import abort, current_app, request
 from functools import wraps
 from twilio.request_validator import RequestValidator
 
-import redis
-
 import os
+import pudb
+from redis import StrictRedis
 
+redis = StrictRedis(charset="utf-8", decode_responses=True)
 app = Flask(__name__)
 
 def validate_twilio_request(f):
@@ -47,20 +48,27 @@ def sms_reply():
 
 @app.route("/members", methods=['GET'])
 def get_members():
-    """Get list of users in the app."""
+    """Get list of members"""
     return jsonify([
         {
             'first_name': 'taylor',
             'last_name': 'sather',
             'phone_number': '18583828381',
         },
+    ])
+
+@app.route("/members", methods=['POST'])
+def create_member():
+    """Add member to list"""
+    #pudb.set_trace()
+    return jsonify([
         {
-            'first_name': 'jessica',
+            'first_name': 'taylor',
             'last_name': 'sather',
-            'phone_number': '17604293043',
+            'phone_number': '18583828381',
         },
     ])
 
 if __name__ == '__main__':
-    app.run(port=os.environ['PORT'])
+    app.run(port=8000)
 

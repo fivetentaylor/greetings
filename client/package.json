@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-easy-state": "^5.1.0",
     "react-scripts": "1.1.4"
   },
   "proxy": "http://localhost:8000/",
