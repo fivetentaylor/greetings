@@ -7,6 +7,7 @@ from twilio.request_validator import RequestValidator
 
 import os
 import pudb
+import json
 from redis import StrictRedis
 
 redis = StrictRedis(charset="utf-8", decode_responses=True)
@@ -49,25 +50,17 @@ def sms_reply():
 @app.route("/members", methods=['GET'])
 def get_members():
     """Get list of members"""
-    return jsonify([
-        {
-            'first_name': 'taylor',
-            'last_name': 'sather',
-            'phone_number': '18583828381',
-        },
-    ])
+    return jsonify([json.loads(v) for v in redis.hgetall('members').values()])
 
 @app.route("/members", methods=['POST'])
 def create_member():
     """Add member to list"""
-    #pudb.set_trace()
-    return jsonify([
-        {
-            'first_name': 'taylor',
-            'last_name': 'sather',
-            'phone_number': '18583828381',
-        },
-    ])
+    redis.hset(
+        'members',
+        request.json['phonenumber'],
+        json.dumps(request.json),
+    )
+    return 'ok'
 
 if __name__ == '__main__':
     app.run(port=8000)

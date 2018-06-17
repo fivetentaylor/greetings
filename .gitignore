@@ -22,3 +22,5 @@ yarn-error.log*
 
 env.sh
 *.pyc
+*.swp
+*.swo
