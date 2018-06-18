@@ -20,7 +20,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-env.sh
 *.pyc
 *.swp
 *.swo
