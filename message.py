@@ -1,6 +1,12 @@
 import os
+import pudb
+import json
 from redis import StrictRedis
 from twilio.rest import Client
+
+messages = {
+    'invite': "Hi {firstname} would you like to meetup for coffee?",
+}
 
 def main():
     redis = StrictRedis(charset="utf-8", decode_responses=True)
@@ -10,12 +16,14 @@ def main():
     # Your Auth Token from twilio.com/console
     auth_token  = os.environ['TWILIO_AUTH_TOKEN']
 
-    client = Client(account_sid, auth_token)
+    twilio = Client(account_sid, auth_token)
 
-    message = client.messages.create(
-	to="+18583828381",
-	from_="+14252306654 ",
-	body="Hello from Python!")
+    for member in redis.hgetall('members').values():
+        member = json.loads(member)
+        message = twilio.messages.create(
+            to="+1{phonenumber}".format(**member),
+            from_="+14252306654",
+            body=messages['invite'].format(**member))
 
 if __name__ == '__main__':
     main()

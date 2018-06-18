@@ -12,9 +12,9 @@ function Members({ members }) {
     <table className="Members">
     <tbody>
     <tr>
-      <th>first name</th>
-      <th>last name</th>
-      <th>phone number</th>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Phone Number</th>
     </tr>
     </tbody>
     { members.map((m, index) => { 
@@ -24,21 +24,33 @@ function Members({ members }) {
            <td>{m.firstname}</td>
            <td>{m.lastname}</td>
            <td>{m.phonenumber}</td>
+          <td>
+          <button onClick={() => {
+            store.deleteMember(m.phonenumber)
+          }}>
+          delete
+          </button>
+          </td>
          </tr>
          </tbody>
         )
     })}
+    <tbody>
+      <tr>
+        <td><input ref={fn} type='text' placeholder='first name' /></td>
+        <td><input ref={ln} type='text' placeholder='last name' /></td>
+        <td><input ref={pn} type='text' placeholder='phone number' /></td>
+        <td><button onClick={() => {
+          store.createMember(
+            fn.current.value,
+            ln.current.value,
+            pn.current.value)
+        }}>
+          add member
+        </button></td>
+      </tr>
+    </tbody>
     </table>
-    <div>
-     <input ref={fn} type='text' placeholder='first name' />
-     <input ref={ln} type='text' placeholder='last name' />
-     <input ref={pn} type='text' placeholder='phone number' />
-    <button onClick={() => {
-      store.createMember(fn.current.value, ln.current.value, pn.current.value)
-    }}>
-     add member
-    </button>
-    </div>
     </div>
   );
 }

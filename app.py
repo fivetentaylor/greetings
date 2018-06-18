@@ -1,10 +1,12 @@
-from flask import Flask, request, redirect, jsonify
+from flask import Flask, request, redirect, jsonify,\
+                  abort, current_app, request
+
 from twilio.twiml.messaging_response import MessagingResponse
 
-from flask import abort, current_app, request
 from functools import wraps
 from twilio.request_validator import RequestValidator
 
+import re
 import os
 import pudb
 import json
@@ -35,17 +37,29 @@ def validate_twilio_request(f):
             return abort(403)
     return decorated_function
 
-@app.route("/sms", methods=['GET', 'POST'])
+@app.route("/sms", methods=['POST'])
 @validate_twilio_request
 def sms_reply():
     """Respond to incoming calls with a simple text message."""
     # Start our TwiML response
     resp = MessagingResponse()
 
-    # Add a message
-    resp.message("The Robots are coming! Head for the hills!")
+    num = re.subn(r'^\+1', '', request.values['From'])[0]
+    msg = request.values['Body']
 
-    return str(resp)
+    member = redis.hget('members', num)
+    if member is not None:
+        if 'YES' in msg:
+            # Add a message
+            resp.message("Yay, glad you're coming!")
+        elif 'NO' in msg:
+            resp.message("Maybe next time!")
+        else:
+            resp.message("Sorry I don't understand")
+
+        return str(resp)
+
+    return abort(404)
 
 @app.route("/members", methods=['GET'])
 def get_members():
@@ -59,6 +73,15 @@ def create_member():
         'members',
         request.json['phonenumber'],
         json.dumps(request.json),
+    )
+    return 'ok'
+
+@app.route("/members", methods=['DELETE'])
+def delete_member():
+    """Add member to list"""
+    redis.hdel(
+        'members',
+        request.json['phonenumber'],
     )
     return 'ok'
 
