@@ -18,6 +18,7 @@ def main():
 
     twilio = Client(account_sid, auth_token)
 
+    pudb.set_trace()
     for member in redis.hgetall('members').values():
         member = json.loads(member)
         message = twilio.messages.create(

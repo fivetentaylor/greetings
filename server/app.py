@@ -15,6 +15,9 @@ from redis import StrictRedis
 redis = StrictRedis(charset="utf-8", decode_responses=True)
 app = Flask(__name__)
 
+def dicthash(d):
+    return hash(tuple(v for _,v in sorted(d.items())))
+
 def validate_twilio_request(f):
     """Validates that incoming requests genuinely originated from Twilio"""
     @wraps(f)
@@ -93,22 +96,25 @@ def get_meetups():
 @app.route("/meetups", methods=['POST'])
 def create_meetup():
     """Add meetup to list"""
+    blob = json.dumps(request.json)
+    key = dicthash(request.json)
     redis.hset(
         'meetups',
-        request.json['name'],
-        json.dumps(request.json),
+        key,
+        blob,
     )
     return 'ok'
 
 @app.route("/meetups", methods=['DELETE'])
 def delete_meetup():
     """Add meetup to list"""
+    blob = json.dumps(request.json)
+    key = dicthash(request.json)
     redis.hdel(
         'meetups',
-        request.json['name'],
+        key,
     )
     return 'ok'
 
 if __name__ == '__main__':
     app.run(port=8000)
-
