@@ -2,40 +2,34 @@ import { store } from 'react-easy-state';
 
 let stateStore = store({
   members: [],
-  fetchMembers: () => {
-    fetch('/members')
+  meetups: [],
+  get: (resource) => {
+    fetch(`/${resource}`)
 		  .then( result => result.json() )
-		  .then( members => stateStore.members = members );
+		  .then( obj => stateStore[resource] = obj );
   },
-  createMember: (
-    firstname,
-    lastname,
-    phonenumber,
+  create: (
+    resource,
+    obj,
   ) => {
-    fetch('/members', {
+    fetch(`/${resource}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        firstname,
-        lastname,
-        phonenumber,
-      }),
-    }).then( () => stateStore.fetchMembers() );
+      body: JSON.stringify(obj),
+    }).then( () => stateStore.get(resource) );
   },
-  deleteMember: ( phonenumber ) => {
-    fetch('/members', {
+  delete: ( resource, obj ) => {
+    fetch(`/${resource}`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        phonenumber,
-      }),
-    }).then( () => stateStore.fetchMembers() );
+      body: JSON.stringify(obj)
+    }).then( () => stateStore.get(resource) );
   },
 });
 

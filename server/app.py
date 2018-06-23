@@ -85,6 +85,30 @@ def delete_member():
     )
     return 'ok'
 
+@app.route("/meetups", methods=['GET'])
+def get_meetups():
+    """Get list of meetups"""
+    return jsonify([json.loads(v) for v in redis.hgetall('meetups').values()])
+
+@app.route("/meetups", methods=['POST'])
+def create_meetup():
+    """Add meetup to list"""
+    redis.hset(
+        'meetups',
+        request.json['name'],
+        json.dumps(request.json),
+    )
+    return 'ok'
+
+@app.route("/meetups", methods=['DELETE'])
+def delete_meetup():
+    """Add meetup to list"""
+    redis.hdel(
+        'meetups',
+        request.json['name'],
+    )
+    return 'ok'
+
 if __name__ == '__main__':
     app.run(port=8000)
 

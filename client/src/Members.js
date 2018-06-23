@@ -26,7 +26,7 @@ function Members({ members }) {
            <td>{m.phonenumber}</td>
           <td>
           <button onClick={() => {
-            store.deleteMember(m.phonenumber)
+            store.delete('member', m)
           }}>
           delete
           </button>
@@ -41,10 +41,13 @@ function Members({ members }) {
         <td><input ref={ln} type='text' placeholder='last name' /></td>
         <td><input ref={pn} type='text' placeholder='phone number' /></td>
         <td><button onClick={() => {
-          store.createMember(
-            fn.current.value,
-            ln.current.value,
-            pn.current.value)
+          store.create(
+            'member', {
+              firstname: fn.current.value,
+              lastname: ln.current.value,
+              phonenumber: pn.current.value
+            }
+          )
         }}>
           add member
         </button></td>

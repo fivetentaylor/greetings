@@ -5,10 +5,12 @@ import './App.css';
 import store from './Store';
 
 import Members from './Members.js';
+import Meetups from './Meetups.js';
 
 class App extends Component {
 	componentDidMount() {
-    store.fetchMembers();
+    store.get('members');
+    store.get('meetups');
 	}
 
   render() {
@@ -19,6 +21,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <Members members={ store.members }/>
+        <Meetups meetups={ store.meetups }/>
       </div>
     );
   }
