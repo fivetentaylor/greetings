@@ -6,11 +6,13 @@ import store from './Store';
 
 import Members from './Members.js';
 import Meetups from './Meetups.js';
+import Assignments from './Assignments.js';
 
 class App extends Component {
 	componentDidMount() {
     store.get('members');
     store.get('meetups');
+    store.get('assignments');
 	}
 
   render() {
@@ -22,6 +24,7 @@ class App extends Component {
         </header>
         <Members members={ store.members }/>
         <Meetups meetups={ store.meetups }/>
+        <Assignments assignments={ store.assignments }/>
       </div>
     );
   }

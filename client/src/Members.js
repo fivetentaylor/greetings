@@ -26,7 +26,7 @@ function Members({ members }) {
            <td>{m.phonenumber}</td>
           <td>
           <button onClick={() => {
-            store.delete('member', m)
+            store.delete('members', m)
           }}>
           delete
           </button>
@@ -42,7 +42,7 @@ function Members({ members }) {
         <td><input ref={pn} type='text' placeholder='phone number' /></td>
         <td><button onClick={() => {
           store.create(
-            'member', {
+            'members', {
               firstname: fn.current.value,
               lastname: ln.current.value,
               phonenumber: pn.current.value

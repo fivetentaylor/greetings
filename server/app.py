@@ -116,5 +116,10 @@ def delete_meetup():
     )
     return 'ok'
 
+@app.route("/assignments", methods=['GET'])
+def get_assignments():
+    """Get list of assignments"""
+    return jsonify([json.loads(v) for v in redis.hgetall('assignments').values()])
+
 if __name__ == '__main__':
     app.run(port=8000)

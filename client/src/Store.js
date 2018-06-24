@@ -3,6 +3,7 @@ import { store } from 'react-easy-state';
 let stateStore = store({
   members: [],
   meetups: [],
+  assignments: [],
   get: (resource) => {
     fetch(`/${resource}`)
 		  .then( result => result.json() )
