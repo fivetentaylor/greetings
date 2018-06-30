@@ -1,6 +1,7 @@
 import React from 'react';
 import { view } from 'react-easy-state';
 import store from './Store';
+import { Input, Table, Button } from 'semantic-ui-react'
 
 function Members({ members }) {
   let fn = React.createRef();
@@ -8,53 +9,50 @@ function Members({ members }) {
   let pn = React.createRef();
 
   return (
-    <div>
-    <table className="Members">
-    <tbody>
-    <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Phone Number</th>
-    </tr>
-    </tbody>
+    <Table className="Members">
+    <Table.Header>
+      <Table.Row>
+        <Table.HeaderCell>Firstname</Table.HeaderCell>
+        <Table.HeaderCell>Lastname</Table.HeaderCell>
+        <Table.HeaderCell>Phone Number</Table.HeaderCell>
+        <Table.HeaderCell></Table.HeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
     { members.map((m, index) => { 
         return (
-         <tbody key={index}>
-         <tr>
-           <td>{m.firstname}</td>
-           <td>{m.lastname}</td>
-           <td>{m.phonenumber}</td>
-          <td>
-          <button onClick={() => {
+         <Table.Row key={index} >
+           <Table.Cell>{m.firstname}</Table.Cell>
+           <Table.Cell>{m.lastname}</Table.Cell>
+           <Table.Cell>{m.phonenumber}</Table.Cell>
+          <Table.Cell>
+          <Button onClick={() => {
             store.delete('members', m)
           }}>
           delete
-          </button>
-          </td>
-         </tr>
-         </tbody>
+          </Button>
+          </Table.Cell>
+         </Table.Row>
         )
     })}
-    <tbody>
-      <tr>
-        <td><input ref={fn} type='text' placeholder='first name' /></td>
-        <td><input ref={ln} type='text' placeholder='last name' /></td>
-        <td><input ref={pn} type='text' placeholder='phone number' /></td>
-        <td><button onClick={() => {
+      <Table.Row>
+        <Table.Cell><Input ref={fn} type='text' placeholder='first name' /></Table.Cell>
+        <Table.Cell><Input ref={ln} type='text' placeholder='last name' /></Table.Cell>
+        <Table.Cell><Input ref={pn} type='text' placeholder='phone number' /></Table.Cell>
+        <Table.Cell><Button onClick={() => {
           store.create(
             'members', {
-              firstname: fn.current.value,
-              lastname: ln.current.value,
-              phonenumber: pn.current.value
+              firstname: fn.current.inputRef.value,
+              lastname: ln.current.inputRef.value,
+              phonenumber: pn.current.inputRef.value
             }
           )
         }}>
           add member
-        </button></td>
-      </tr>
-    </tbody>
-    </table>
-    </div>
+        </Button></Table.Cell>
+      </Table.Row>
+      </Table.Body>
+    </Table>
   );
 }
 

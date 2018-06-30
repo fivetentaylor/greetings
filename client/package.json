@@ -6,7 +6,9 @@
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
     "react-easy-state": "^5.1.0",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "semantic-ui-css": "^2.3.2",
+    "semantic-ui-react": "^0.81.3"
   },
   "proxy": "http://localhost:8000/",
   "scripts": {

@@ -4,6 +4,7 @@ let stateStore = store({
   members: [],
   meetups: [],
   assignments: [],
+  page: 'members',
   get: (resource) => {
     fetch(`/${resource}`)
 		  .then( result => result.json() )
