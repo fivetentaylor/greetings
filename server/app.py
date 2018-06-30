@@ -52,10 +52,10 @@ def sms_reply():
 
     member = redis.hget('members', num)
     if member is not None:
-        if 'YES' in msg:
+        if 'YES' in msg.upper():
             # Add a message
             resp.message("Yay, glad you're coming!")
-        elif 'NO' in msg:
+        elif 'NO' in msg.upper():
             resp.message("Maybe next time!")
         else:
             resp.message("Sorry I don't understand")
@@ -119,7 +119,14 @@ def delete_meetup():
 @app.route("/assignments", methods=['GET'])
 def get_assignments():
     """Get list of assignments"""
-    return jsonify([json.loads(v) for v in redis.hgetall('assignments').values()])
+    keys = redis.keys('assignments_*')
+    out = []
+
+    for k in keys:
+        for a in redis.zscan_iter(k):
+            out.append(json.loads(a[0]))
+
+    return jsonify(out)
 
 if __name__ == '__main__':
     app.run(port=8000)

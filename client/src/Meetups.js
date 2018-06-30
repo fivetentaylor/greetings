@@ -13,10 +13,11 @@ function Meetups({ meetups }) {
     <Table className="Meetups">
       <Table.Header>
         <Table.Row>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Day</th>
-          <th>Time</th>
+          <Table.HeaderCell>Name</Table.HeaderCell>
+          <Table.HeaderCell>Location</Table.HeaderCell>
+          <Table.HeaderCell>Day</Table.HeaderCell>
+          <Table.HeaderCell>Time</Table.HeaderCell>
+          <Table.HeaderCell></Table.HeaderCell>
         </Table.Row>
       </Table.Header>
       <Table.Body>

@@ -7,7 +7,9 @@ from redis import StrictRedis
 from twilio.rest import Client
 
 messages = {
-    'invite': "Hi {firstname} would you like to meetup for {name} at {time} on {day}?",
+    'invite': '''Hi {firstname} would you like to meetup for {name} at {time} on {day}?
+reply: YES or NO
+    ''',
 }
 
 def main():
@@ -29,12 +31,14 @@ def main():
         assignment = {}
         assignment.update(member)
         assignment.update(meetup)
+        assignment['accepted'] = 'no reply'
 
-        today = datetime.now().strftime('%Y-%m-%d')
+        timestamp = datetime.now().timestamp()
+        assignment['timestamp'] = timestamp
 
-        redis.hset(
-            'assignments',
-            '%s_%s' % (today, member['phonenumber']),
+        redis.zadd(
+            'assignments_%s' % member['phonenumber'],
+            timestamp,
             json.dumps(assignment),
         )
 
