@@ -1,41 +1,40 @@
 import React from 'react';
 import { view } from 'react-easy-state';
 import store from './Store';
+import { Input, Table, Button } from 'semantic-ui-react'
 
 function Assignments({ assignments }) {
   return (
-    <div>
-    <table className="Assignments">
-    <tbody>
-    <tr>
-      <th>Member Firstname</th>
-      <th>Member Lastname</th>
-      <th>Member Phone Number</th>
+    <Table className="Assignments">
+    <Table.Header>
+    <Table.Row>
+      <Table.HeaderCell>Member Firstname</Table.HeaderCell>
+      <Table.HeaderCell>Member Lastname</Table.HeaderCell>
+      <Table.HeaderCell>Member Phone Number</Table.HeaderCell>
 
-      <th>Meetup Name</th>
-      <th>Meetup Location</th>
-      <th>Meetup Day</th>
-      <th>Meetup Time</th>
-    </tr>
-    </tbody>
+      <Table.HeaderCell>Meetup Name</Table.HeaderCell>
+      <Table.HeaderCell>Meetup Location</Table.HeaderCell>
+      <Table.HeaderCell>Meetup Day</Table.HeaderCell>
+      <Table.HeaderCell>Meetup Time</Table.HeaderCell>
+    </Table.Row>
+    </Table.Header>
+    <Table.Body>
     { assignments.map((m, index) => { 
         return (
-         <tbody key={index}>
-         <tr>
-           <td>{m.firstname}</td>
-           <td>{m.lastname}</td>
-           <td>{m.phonenumber}</td>
+         <Table.Row key={index} >
+           <Table.Cell>{m.firstname}</Table.Cell>
+           <Table.Cell>{m.lastname}</Table.Cell>
+           <Table.Cell>{m.phonenumber}</Table.Cell>
 
-           <td>{m.name}</td>
-           <td>{m.location}</td>
-           <td>{m.day}</td>
-           <td>{m.time}</td>
-         </tr>
-         </tbody>
+           <Table.Cell>{m.name}</Table.Cell>
+           <Table.Cell>{m.location}</Table.Cell>
+           <Table.Cell>{m.day}</Table.Cell>
+           <Table.Cell>{m.time}</Table.Cell>
+         </Table.Row>
         )
     })}
-    </table>
-    </div>
+    </Table.Body>
+    </Table>
   );
 }
 
